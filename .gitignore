@@ -1,0 +1,10 @@
+node_modules/
+
+backend/data/
+__pycache__/
+.pytest_cache/
+*.db
+
+.venv/
+backend/.venv/
+*.zip

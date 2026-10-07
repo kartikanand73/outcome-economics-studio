@@ -1,0 +1,7 @@
+metric,value,unit,evidence,note
+benchmark_name,Confidence cascade replay,,,
+source,Your evaluation harness,,,
+decisions,600,,,
+model_cost_per_1000_decisions,0.71,USD,measured,
+accuracy_pct,98.0,%,measured,
+p50_latency_ms,221,ms,measured,

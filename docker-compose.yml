@@ -1,0 +1,10 @@
+services:
+  studio:
+    build: .
+    image: outcome-economics-studio:0.1.0
+    ports:
+      - "8000:8000"
+    volumes:
+      - studio-data:/data
+volumes:
+  studio-data:

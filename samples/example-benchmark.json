@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "benchmark": {
+    "name": "Outcome-aware router - replay run",
+    "source": "Your evaluation harness",
+    "run_date": "2026-09-01",
+    "decisions": 600,
+    "is_sample": true,
+    "metrics": {
+      "model_cost_per_1000_decisions": {
+        "value": 0.56,
+        "unit": "USD"
+      },
+      "accuracy_pct": 98.8,
+      "p50_latency_ms": 209,
+      "p95_latency_ms": 3100,
+      "larger_model_calls": 137,
+      "larger_model_calls_avoided": {
+        "value": 415,
+        "note": "vs Sol-eligible baseline"
+      },
+      "fraud_auto_approved": 0
+    },
+    "segments": [
+      {
+        "name": "High-value withdrawals",
+        "decisions": 120,
+        "accuracy_pct": 97.5
+      },
+      {
+        "name": "Routine withdrawals",
+        "decisions": 480,
+        "accuracy_pct": 99.1
+      }
+    ]
+  },
+  "routes": [
+    {
+      "id": "deterministic",
+      "share_pct": 8,
+      "accuracy_pct": 99.9
+    },
+    {
+      "id": "jev",
+      "share_pct": 69.1667,
+      "accuracy_pct": 99.0,
+      "safety": {
+        "fraud_auto_approval_pct": 0
+      }
+    },
+    {
+      "id": "jev-sol",
+      "share_pct": 22.8333,
+      "accuracy_pct": 97.4,
+      "larger_changed_outcome_pct": 31,
+      "safety": {
+        "fraud_auto_approval_pct": 0
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "gpt-6-sol",
+      "avg_input_tokens": 1080,
+      "avg_output_tokens": 46,
+      "avg_reasoning_tokens": 64
+    }
+  ]
+}

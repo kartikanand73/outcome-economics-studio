@@ -1,0 +1,335 @@
+{
+  "id": "sample-outcome-aware-router",
+  "name": "Outcome-aware router",
+  "business_process": "Bank withdrawal decision",
+  "description": "Deterministic policy eliminates calls that cannot matter; Jev scores the remaining eligible cases; GPT-6 Sol is invoked only when a second opinion can change the governed outcome.",
+  "is_sample": true,
+  "sample_note": "Sample benchmark data for demonstration. Measured values come from the Jev reference benchmark; prices, token counts, review rates and costs are illustrative assumptions. Replace them with your own.",
+  "workload": {
+    "evidence": {},
+    "tasks_per_day": "1000",
+    "operating_days_per_month": "30",
+    "annual_growth_pct": "0",
+    "peak_tasks_per_minute": "5",
+    "target_accuracy_pct": "98",
+    "max_latency_ms": "2000",
+    "currency": "USD"
+  },
+  "models": [
+    {
+      "evidence": {},
+      "id": "jev-1-13",
+      "provider": "Jev (sample)",
+      "name": "Jev 1.13",
+      "tier": "lightweight",
+      "input_price_per_m": "0.05",
+      "output_price_per_m": "0.20",
+      "cached_input_price_per_m": null,
+      "reasoning_price_per_m": null,
+      "separately_metered_reasoning": false,
+      "avg_input_tokens": "650",
+      "avg_output_tokens": "35",
+      "avg_reasoning_tokens": "0",
+      "cached_input_share_pct": "0",
+      "avg_calls_per_task": "1",
+      "retry_rate_pct": "0.5",
+      "retries_enabled": true,
+      "p50_latency_ms": "180",
+      "p95_latency_ms": "420",
+      "context": {
+        "evidence": {},
+        "system_prompt_tokens": "300",
+        "avg_user_input_tokens": "350",
+        "max_user_input_tokens": "500",
+        "history_enabled": false,
+        "max_history_tokens": null,
+        "retrieval_enabled": false,
+        "max_retrieved_tokens": null,
+        "tool_schema_tokens": "0",
+        "tool_schema_count": 0,
+        "few_shot_tokens": "0",
+        "max_output_tokens": "64",
+        "max_reasoning_tokens": null
+      },
+      "limits": {
+        "evidence": {},
+        "agent_loop_enabled": false,
+        "max_agent_iterations": null,
+        "max_model_calls": 1,
+        "max_retries": 1
+      }
+    },
+    {
+      "evidence": {},
+      "id": "gpt-6-sol",
+      "provider": "OpenAI (sample pricing)",
+      "name": "GPT-6 Sol",
+      "tier": "larger",
+      "input_price_per_m": "1.25",
+      "output_price_per_m": "10.00",
+      "cached_input_price_per_m": "0.125",
+      "reasoning_price_per_m": null,
+      "separately_metered_reasoning": true,
+      "avg_input_tokens": "1000",
+      "avg_output_tokens": "44",
+      "avg_reasoning_tokens": "60",
+      "cached_input_share_pct": "0",
+      "avg_calls_per_task": "1",
+      "retry_rate_pct": "1",
+      "retries_enabled": true,
+      "p50_latency_ms": "2570",
+      "p95_latency_ms": "5200",
+      "context": {
+        "evidence": {},
+        "system_prompt_tokens": "450",
+        "avg_user_input_tokens": "350",
+        "max_user_input_tokens": "500",
+        "history_enabled": false,
+        "max_history_tokens": null,
+        "retrieval_enabled": true,
+        "max_retrieved_tokens": "1200",
+        "tool_schema_tokens": "0",
+        "tool_schema_count": 0,
+        "few_shot_tokens": "0",
+        "max_output_tokens": "256",
+        "max_reasoning_tokens": "1024"
+      },
+      "limits": {
+        "evidence": {},
+        "agent_loop_enabled": false,
+        "max_agent_iterations": null,
+        "max_model_calls": 1,
+        "max_retries": 2
+      }
+    }
+  ],
+  "routes": [
+    {
+      "evidence": {
+        "share_pct": "measured",
+        "accuracy_pct": "assumption"
+      },
+      "id": "deterministic",
+      "name": "Deterministic outcome - no model",
+      "share_pct": "8",
+      "description": "Policy rules decide cases where no model output could change the governed outcome.",
+      "deterministic_rule": true,
+      "rule_latency_ms": "5",
+      "rule_tool_calls": "1",
+      "max_rule_tool_calls": null,
+      "stages": [],
+      "direct_human": false,
+      "human_review_pct": "0",
+      "human_review_mandatory": false,
+      "review_minutes_override": null,
+      "expected_outcome": "Approve / decline by policy",
+      "accuracy_pct": "98.8",
+      "p50_latency_ms": null,
+      "p95_latency_ms": null,
+      "model_eligible": null,
+      "larger_changed_outcome_pct": null,
+      "safety": {
+        "evidence": {
+          "fraud_auto_approval_pct": "measured"
+        },
+        "fraud_auto_approval_pct": "0",
+        "critical_false_approval_pct": null,
+        "incorrect_auto_rejection_pct": null,
+        "unnecessary_review_pct": null,
+        "policy_override_pct": null
+      }
+    },
+    {
+      "evidence": {
+        "share_pct": "measured",
+        "accuracy_pct": "assumption"
+      },
+      "id": "jev",
+      "name": "Jev only",
+      "share_pct": "69.1667",
+      "description": "",
+      "deterministic_rule": false,
+      "rule_latency_ms": "5",
+      "rule_tool_calls": "1",
+      "max_rule_tool_calls": null,
+      "stages": [
+        {
+          "evidence": {},
+          "model_id": "jev-1-13",
+          "avg_calls_override": null,
+          "tools_exposed": false,
+          "avg_tool_calls": "0",
+          "max_tool_calls": null,
+          "subagents_enabled": false,
+          "avg_subagents": "0",
+          "max_subagents": null,
+          "subagent_model_id": null
+        }
+      ],
+      "direct_human": false,
+      "human_review_pct": "5",
+      "human_review_mandatory": false,
+      "review_minutes_override": null,
+      "expected_outcome": "Approve / decline",
+      "accuracy_pct": "98.8",
+      "p50_latency_ms": null,
+      "p95_latency_ms": null,
+      "model_eligible": null,
+      "larger_changed_outcome_pct": null,
+      "safety": {
+        "evidence": {
+          "fraud_auto_approval_pct": "measured"
+        },
+        "fraud_auto_approval_pct": "0",
+        "critical_false_approval_pct": null,
+        "incorrect_auto_rejection_pct": null,
+        "unnecessary_review_pct": null,
+        "policy_override_pct": null
+      }
+    },
+    {
+      "evidence": {
+        "share_pct": "measured",
+        "accuracy_pct": "assumption"
+      },
+      "id": "jev-sol",
+      "name": "Jev -> Sol (outcome can change)",
+      "share_pct": "22.8333",
+      "description": "",
+      "deterministic_rule": false,
+      "rule_latency_ms": "5",
+      "rule_tool_calls": "1",
+      "max_rule_tool_calls": null,
+      "stages": [
+        {
+          "evidence": {},
+          "model_id": "jev-1-13",
+          "avg_calls_override": null,
+          "tools_exposed": false,
+          "avg_tool_calls": "0",
+          "max_tool_calls": null,
+          "subagents_enabled": false,
+          "avg_subagents": "0",
+          "max_subagents": null,
+          "subagent_model_id": null
+        },
+        {
+          "evidence": {},
+          "model_id": "gpt-6-sol",
+          "avg_calls_override": null,
+          "tools_exposed": false,
+          "avg_tool_calls": "0",
+          "max_tool_calls": null,
+          "subagents_enabled": false,
+          "avg_subagents": "0",
+          "max_subagents": null,
+          "subagent_model_id": null
+        }
+      ],
+      "direct_human": false,
+      "human_review_pct": "5",
+      "human_review_mandatory": false,
+      "review_minutes_override": null,
+      "expected_outcome": "Approve / decline / refer",
+      "accuracy_pct": "98.8",
+      "p50_latency_ms": null,
+      "p95_latency_ms": null,
+      "model_eligible": null,
+      "larger_changed_outcome_pct": null,
+      "safety": {
+        "evidence": {
+          "fraud_auto_approval_pct": "measured"
+        },
+        "fraud_auto_approval_pct": "0",
+        "critical_false_approval_pct": null,
+        "incorrect_auto_rejection_pct": null,
+        "unnecessary_review_pct": null,
+        "policy_override_pct": null
+      }
+    }
+  ],
+  "costs": {
+    "evidence": {},
+    "review_minutes_avg": "3",
+    "review_minutes_max": "10",
+    "reviewer_hourly_cost": "60",
+    "tool_cost_per_call": "0.0002",
+    "fixed_infra_monthly": "120",
+    "observability_monthly": "40",
+    "other_fixed_monthly": "0",
+    "eval_sampling_pct": "2",
+    "eval_cost_per_sample": "0.02",
+    "other_variable_per_task": "0"
+  },
+  "budget": {
+    "evidence": {},
+    "max_monetary_budget_per_task": "0.01",
+    "max_token_budget_per_task": null,
+    "enforcement": "reject",
+    "check_timing": "pre_call",
+    "degrade_fallback_cost": null,
+    "max_execution_time_s": null
+  },
+  "decision": {
+    "evidence": {},
+    "baseline_review_pct": null
+  },
+  "benchmark": {
+    "name": "Outcome-aware router (Jev benchmark)",
+    "source": "Jev benchmark - 600 test decisions (SAMPLE DATA: replace with your own benchmark)",
+    "run_date": "",
+    "is_sample": true,
+    "decisions": 600,
+    "metrics": {
+      "model_cost_per_1000_decisions": {
+        "value": "0.56",
+        "unit": "USD",
+        "evidence": "measured",
+        "note": ""
+      },
+      "accuracy_pct": {
+        "value": "98.8",
+        "unit": "%",
+        "evidence": "measured",
+        "note": ""
+      },
+      "p50_latency_ms": {
+        "value": "209",
+        "unit": "ms",
+        "evidence": "measured",
+        "note": ""
+      },
+      "larger_model_calls": {
+        "value": "137",
+        "unit": "calls",
+        "evidence": "measured",
+        "note": ""
+      },
+      "larger_model_calls_avoided": {
+        "value": "415",
+        "unit": "calls",
+        "evidence": "measured",
+        "note": "vs. Sol-eligible baseline of 552"
+      },
+      "larger_model_token_reduction_pct": {
+        "value": "75",
+        "unit": "%",
+        "evidence": "measured",
+        "note": "vs. Sol-only"
+      },
+      "model_cost_reduction_pct": {
+        "value": "73",
+        "unit": "%",
+        "evidence": "measured",
+        "note": "vs. Sol-only"
+      },
+      "fraud_auto_approved": {
+        "value": "0",
+        "unit": "cases",
+        "evidence": "measured",
+        "note": ""
+      }
+    },
+    "segments": []
+  }
+}

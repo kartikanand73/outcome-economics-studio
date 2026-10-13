@@ -12,6 +12,29 @@ human review, evaluation and allocated infrastructure — and asks the question 
 
 Guiding principle: *do not spend more intelligence than the decision requires.*
 
+
+## Watch the demo
+
+▶️ **Outcome Economics Studio: What Does a Correct, Governed AI Outcome Actually Cost?**
+
+https://youtu.be/aiIg5N0LboU
+
+Outcome Economics Studio goes beyond token-price calculations. It models the complete cost of producing a correct, governed business outcome across deterministic rules, decision models, larger language models, tools, retries, bounded execution, human review, infrastructure and evaluation.
+
+The demo walks through a bank-withdrawal scenario and shows how architecture choices affect expected cost, bounded maximum cost, accuracy, latency and operational risk.
+
+### What the studio helps answer
+
+- Which route should handle each type of work?
+- When does a larger model call provide enough decision value?
+- What does human review add to the operating cost?
+- Is the maximum cost actually bounded?
+- What is the cost per correct governed outcome?
+- Which numbers are measured, assumed or derived?
+
+Read the complete article:
+
+https://medium.com/@kartikanand_11915/agentic-finops-part-5-of-5-i-built-outcome-economics-studio-because-model-cost-is-not-outcome-92151182e1b1
 ---
 
 ## Quick start
